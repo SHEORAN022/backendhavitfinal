@@ -99,6 +99,7 @@ app.use("/api/categories", require("./routes/categoryRoutes"));
 app.use("/api/subcategories", require("./routes/subCategoryRoutes"));
 app.use("/api/orders", require("./routes/orderRoutes"));
 app.use("/api/payment", require("./routes/paymentRoutes"));
+app.use("/api", require("./routes/publicProducts"));
 
 /* Vendor */
 app.use("/api/vendor", require("./routes/vendorAuth"));
