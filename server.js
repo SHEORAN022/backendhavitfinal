@@ -100,6 +100,7 @@ app.use("/api/categories", require("./routes/categoryRoutes"));
 app.use("/api/subcategories", require("./routes/subCategoryRoutes"));
 app.use("/api/orders", require("./routes/orderRoutes"));
 app.use("/api/payment", require("./routes/paymentRoutes"));
+app.use("/api/website-user", require("./routes/websiteUser.routes"));
 
 
 /* Vendor */
