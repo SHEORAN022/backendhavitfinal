@@ -117,7 +117,7 @@ app.use("/api/vendor/customers", vendorCustomerRoutes);
 app.use("/uploads", express.static("uploads"));
 app.use("/api/vendor", vendorProfileRoutes);
 app.use("/api/vendor", vendorRoutes);
-// app.use("/api/website-user", require("./routes/websiteUser.routes"));
+app.use("/api/website-user", require("./routes/websiteUser.routes"));
 
 app.use("/api/vendor", require("./routes/vendorProfileRoutes"));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
