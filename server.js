@@ -103,6 +103,7 @@ app.use("/api/orders", require("./routes/orderRoutes"));
 app.use("/api/payment", require("./routes/paymentRoutes"));
 // app.use("/api", require("./routes/publicProducts"));
 app.use("/api/admin", adminVendorRoutes);
+app.use("/api/customer", require("./routes/customerOrder.routes"));
 
 /* Vendor */
 app.use("/api/vendor", require("./routes/vendorAuth"));
