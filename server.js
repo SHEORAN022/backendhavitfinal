@@ -123,7 +123,7 @@ app.use("/api/website-user", require("./routes/websiteUser.routes"));
 
 app.use("/api/vendor", require("./routes/vendorProfileRoutes"));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
+app.use("/api/public", require("./routes/publicProducts"));
 
 
 
