@@ -1,8 +1,6 @@
-// const express = require("express");
-// const router = express.Router();
-// const controller = require("../controllers/publicProductController");
+const router = require("express").Router();
+const { getPublicProducts } = require("../controllers/publicProductController");
 
-// // 🌍 WEBSITE PUBLIC API
-// router.get("/products", controller.getAllWebsiteProducts);
+router.get("/products", getPublicProducts);
 
-// module.exports = router;
+module.exports = router;
