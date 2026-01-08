@@ -40,6 +40,7 @@ app.use(
       "http://localhost:5174",
       "http://localhost:5175",
       "http://localhost:7002",
+             "https://havbit.in",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
