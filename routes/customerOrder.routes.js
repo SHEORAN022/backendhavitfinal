@@ -19,17 +19,41 @@
 
 
 
+// const express = require("express");
+// const router = express.Router();
+// const {
+//   createOrder,
+//   getCustomerOrders
+// } = require("../controllers/customerOrder.controller");
+
+// // URL: /api/customer/order/create
+// router.post("/order/create", createOrder);
+
+// // URL: /api/customer/orders/:customerId
+// router.get("/orders/:customerId", getCustomerOrders);
+
+// module.exports = router;
+
+
+
+
+
+
+
+
 const express = require("express");
 const router = express.Router();
 const {
   createOrder,
-  getCustomerOrders
+  getCustomerOrders,
+  getVendorOrders // Naya function
 } = require("../controllers/customerOrder.controller");
 
-// URL: /api/customer/order/create
+// Customer side APIs
 router.post("/order/create", createOrder);
-
-// URL: /api/customer/orders/:customerId
 router.get("/orders/:customerId", getCustomerOrders);
+
+// --- VENDOR SIDE API ---
+router.get("/vendor-orders/:vendorId", getVendorOrders);
 
 module.exports = router;
