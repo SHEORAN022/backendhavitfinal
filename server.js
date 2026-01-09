@@ -43,6 +43,7 @@ app.use(
       "http://localhost:7002",
              "https://havbit.in",
              "https://admin.havbit.in",
+             "https://admin-habit-zpzz.vercel.app",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
