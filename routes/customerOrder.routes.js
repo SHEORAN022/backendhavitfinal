@@ -1,3 +1,24 @@
+// const express = require("express");
+// const router = express.Router();
+// const {
+//   createOrder,
+//   getCustomerOrders
+// } = require("../controllers/customerOrder.controller");
+
+// // CREATE ORDER
+// router.post("/order/create", createOrder);
+
+// // GET CUSTOMER ORDERS
+// router.get("/orders/:customerId", getCustomerOrders);
+
+// module.exports = router;
+
+
+
+
+
+
+
 const express = require("express");
 const router = express.Router();
 const {
@@ -5,10 +26,10 @@ const {
   getCustomerOrders
 } = require("../controllers/customerOrder.controller");
 
-// CREATE ORDER
+// URL: /api/customer/order/create
 router.post("/order/create", createOrder);
 
-// GET CUSTOMER ORDERS
+// URL: /api/customer/orders/:customerId
 router.get("/orders/:customerId", getCustomerOrders);
 
 module.exports = router;
