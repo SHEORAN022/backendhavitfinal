@@ -44,6 +44,7 @@ app.use(
              "https://havbit.in",
              "https://admin.havbit.in",
              "https://admin-habit-zpzz.vercel.app",
+             "https://vendor.havbit.in",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
