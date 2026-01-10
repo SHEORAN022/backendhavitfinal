@@ -41,6 +41,31 @@
 
 
 
+// const express = require("express");
+// const router = express.Router();
+// const {
+//   createOrder,
+//   getCustomerOrders,
+//   getVendorOrders // Naya function
+// } = require("../controllers/customerOrder.controller");
+
+// // Customer side APIs
+// router.post("/order/create", createOrder);
+// router.get("/orders/:customerId", getCustomerOrders);
+
+// // --- VENDOR SIDE API ---
+// router.get("/vendor-orders/:vendorId", getVendorOrders);
+
+// module.exports = router;
+
+
+
+
+
+
+
+
+
 const express = require("express");
 const router = express.Router();
 const {
