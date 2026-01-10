@@ -235,31 +235,6 @@
 
 
 
-// const express = require("express");
-// const router = express.Router();
-// const vendorAuth = require("../middleware/vendorAuth");
-// const upload = require("../middleware/upload");
-// const controller = require("../controllers/vendorProductController");
-
-// router.use(vendorAuth);
-
-// router.get("/", controller.getVendorProducts);
-
-// router.post(
-//   "/",
-//   upload.fields([
-//     { name: "image", maxCount: 1 },
-//     { name: "logo", maxCount: 1 },
-//     { name: "gallery", maxCount: 5 },
-//   ]),
-//   controller.createVendorProduct
-// );
-
-// router.put("/:id", controller.updateVendorProduct);
-
-// router.delete("/:id", controller.deleteVendorProduct);
-
-// module.exports = router;
 const express = require("express");
 const router = express.Router();
 const vendorAuth = require("../middleware/vendorAuth");
@@ -281,6 +256,32 @@ router.post(
 );
 
 router.put("/:id", controller.updateVendorProduct);
+
 router.delete("/:id", controller.deleteVendorProduct);
 
 module.exports = router;
+
+// const express = require("express");
+// const router = express.Router();
+// const vendorAuth = require("../middleware/vendorAuth");
+// const upload = require("../middleware/upload");
+// const controller = require("../controllers/vendorProductController");
+
+// router.use(vendorAuth);
+
+// router.get("/", controller.getVendorProducts);
+
+// router.post(
+//   "/",
+//   upload.fields([
+//     { name: "image", maxCount: 1 },
+//     { name: "logo", maxCount: 1 },
+//     { name: "gallery", maxCount: 5 },
+//   ]),
+//   controller.createVendorProduct
+// );
+
+// router.put("/:id", controller.updateVendorProduct);
+// router.delete("/:id", controller.deleteVendorProduct);
+
+// module.exports = router;
