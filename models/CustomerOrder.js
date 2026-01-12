@@ -255,6 +255,100 @@
 
 
 
+// const mongoose = require("mongoose");
+
+// const CustomerOrderSchema = new mongoose.Schema(
+//   {
+//     customer: {
+//       type: String,
+//       required: [true, "Customer ID is required"]
+//     },
+
+//     orderItems: [
+//       {
+//         productId: {
+//           type: String,
+//           required: [true, "Product ID is required"]
+//         },
+//         productName: {
+//           type: String,
+//           required: [true, "Product name is required"]
+//         },
+//         qty: {
+//           type: Number,
+//           required: [true, "Quantity is required"],
+//           min: 1
+//         },
+//         price: {
+//           type: Number,
+//           required: [true, "Price is required"],
+//           min: 1
+//         },
+//         vendorId: {
+//           type: String,
+//           required: [true, "Vendor ID is required"]
+//         },
+//         image: {
+//           type: String,
+//           default: ""
+//         }
+//       }
+//     ],
+
+//     amount: {
+//       type: Number,
+//       required: [true, "Order amount is required"]
+//     },
+
+//     orderStatus: {
+//       type: String,
+//       enum: ["Pending", "Confirmed", "Processing", "Shipped", "Delivered", "Cancelled"],
+//       default: "Pending"
+//     },
+
+//     paymentMethod: {
+//       type: String,
+//       enum: ["cod", "razorpay", "upi", "cards"],
+//       default: "cod"
+//     },
+
+//     paymentStatus: {
+//       type: String,
+//       enum: ["Pending", "Completed", "Failed", "Refund Initiated"],
+//       default: "Pending"
+//     },
+
+//     shippingAddress: {
+//       name: { type: String, required: [true, "Shipping name required"] },
+//       phone: { type: String, required: [true, "Phone number required"] },
+//       email: { type: String, default: "" },
+//       address: { type: String, required: [true, "Address required"] },
+//       city: { type: String, required: [true, "City required"] },
+//       state: { type: String, required: [true, "State required"] },
+//       pincode: { type: String, required: [true, "Pincode required"] }
+//     },
+
+//     cancellationReason: { type: String, default: "" },
+
+//     timeline: [
+//       {
+//         status: String,
+//         date: { type: Date, default: Date.now }
+//       }
+//     ]
+//   },
+//   { timestamps: true }
+// );
+
+// module.exports = mongoose.model("CustomerOrder", CustomerOrderSchema);
+
+
+
+
+
+
+
+
 const mongoose = require("mongoose");
 
 const CustomerOrderSchema = new mongoose.Schema(
@@ -341,4 +435,3 @@ const CustomerOrderSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model("CustomerOrder", CustomerOrderSchema);
-
