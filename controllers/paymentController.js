@@ -108,6 +108,80 @@
 
 
 
+// exports.verifyPayment = async (req, res) => {
+//   try {
+//     const { 
+//       razorpay_order_id, 
+//       razorpay_payment_id, 
+//       razorpay_signature,
+//       backendOrderId // IMPORTANT - from frontend
+//     } = req.body;
+
+//     if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+//       return res.status(400).json({ success: false, message: "Missing payment details" });
+//     }
+
+//     const sign = razorpay_order_id + "|" + razorpay_payment_id;
+
+//     const expectedSign = crypto
+//       .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+//       .update(sign)
+//       .digest("hex");
+
+//     const isValid = expectedSign === razorpay_signature;
+
+//     // UPDATE PAYMENT TABLE (OPTIONAL)
+//     const paymentRecord = await Payment.findOne({ orderId: razorpay_order_id });
+
+//     if (paymentRecord) {
+//       paymentRecord.paymentId = razorpay_payment_id;
+//       paymentRecord.signature = razorpay_signature;
+//       paymentRecord.status = isValid ? "SUCCESS" : "FAILED";
+//       await paymentRecord.save();
+//     }
+
+//     if (!isValid) {
+//       return res.status(400).json({ success: false, message: "Invalid signature" });
+//     }
+
+//     // UPDATE CUSTOMER ORDER (IMPORTANT)
+//     const customerOrder = await CustomerOrder.findById(backendOrderId);
+
+//     if (!customerOrder) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Order not found"
+//       });
+//     }
+
+//     customerOrder.paymentStatus = "Completed";
+//     customerOrder.orderStatus = "Confirmed";
+//     customerOrder.razorpayOrderId = razorpay_order_id;
+//     customerOrder.razorpayPaymentId = razorpay_payment_id;
+//     customerOrder.razorpaySignature = razorpay_signature;
+
+//     await customerOrder.save();
+
+//     return res.status(200).json({
+//       success: true,
+//       message: "Payment verified & order confirmed",
+//       orderId: backendOrderId
+//     });
+
+//   } catch (err) {
+//     console.error("verifyPayment error:", err);
+//     return res.status(500).json({
+//       success: false,
+//       message: err.message
+//     });
+//   }
+// };
+
+
+
+
+
+
 exports.verifyPayment = async (req, res) => {
   try {
     const { 
