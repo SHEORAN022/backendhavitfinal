@@ -52,6 +52,36 @@
 
 
 
+// const mongoose = require("mongoose");
+
+// const paymentSchema = new mongoose.Schema(
+//   {
+//     razorpayOrderId: { type: String, required: true },
+//     razorpayPaymentId: { type: String },
+//     signature: { type: String },
+
+//     customerOrderId: { type: mongoose.Schema.Types.ObjectId, ref: "CustomerOrder" },
+
+//     // Guest + Auth user both supported
+//     customerId: { type: String, default: null },
+
+//     amount: { type: Number, required: true },
+
+//     status: {
+//       type: String,
+//       enum: ["PENDING", "SUCCESS", "FAILED"],
+//       default: "PENDING"
+//     }
+//   },
+//   { timestamps: true }
+// );
+
+// module.exports = mongoose.model("Payment", paymentSchema);
+
+
+
+
+
 const mongoose = require("mongoose");
 
 const paymentSchema = new mongoose.Schema(
