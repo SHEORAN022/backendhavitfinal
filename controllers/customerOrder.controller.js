@@ -325,57 +325,219 @@
 
 
 
+// const CustomerOrder = require("../models/CustomerOrder");
+
+// exports.createOrder = async (req, res) => {
+//   try {
+//     const { customer, orderItems, amount, paymentMethod, shippingAddress } = req.body;
+
+//     if (!customer || !orderItems || !orderItems.length || !amount || !shippingAddress) {
+//       return res.status(400).json({ success: false, message: "Missing required fields." });
+//     }
+
+//     const newOrder = new CustomerOrder({
+//       customer,
+//       orderItems,
+//       amount,
+//       paymentMethod,
+//       shippingAddress,
+//       paymentStatus:
+//         paymentMethod === "cod"
+//           ? "Pending"
+//           : "Completed"
+//     });
+
+//     await newOrder.save();
+
+//     res.status(201).json({
+//       success: true,
+//       message: "Order placed successfully!",
+//       orderId: newOrder._id,
+//       order: newOrder
+//     });
+
+//   } catch (error) {
+//     res.status(500).json({ success: false, message: error.message });
+//   }
+// };
+
+// // Customer Orders
+// exports.getCustomerOrders = async (req, res) => {
+//   try {
+//     const orders = await CustomerOrder.find({ customer: req.params.customerId })
+//       .sort({ createdAt: -1 });
+
+//     res.status(200).json({ success: true, orders });
+
+//   } catch (error) {
+//     res.status(500).json({ success: false, message: "Server Error" });
+//   }
+// };
+
+// // Vendor Orders (Multi Vendor)
+// exports.getVendorOrders = async (req, res) => {
+//   try {
+//     const { vendorId } = req.params;
+
+//     const orders = await CustomerOrder.find({
+//       "orderItems.vendorId": vendorId
+//     }).sort({ createdAt: -1 });
+
+//     const vendorOnlyItems = orders.map(order => {
+//       const myItems = order.orderItems.filter(
+//         item => item.vendorId.toString() === vendorId
+//       );
+
+//       return {
+//         ...order._doc,
+//         orderItems: myItems,
+//         vendorAmount: myItems.reduce((acc, i) => acc + (i.price * i.qty), 0)
+//       };
+//     });
+
+//     res.status(200).json({ success: true, orders: vendorOnlyItems });
+
+//   } catch (error) {
+//     res.status(500).json({ success: false, message: "Server Error" });
+//   }
+// };
+
+
+
+
+
+
 const CustomerOrder = require("../models/CustomerOrder");
 
-exports.createOrder = async (req, res) => {
+// ===== CREATE ORDER =====
+const createOrder = async (req, res) => {
   try {
     const { customer, orderItems, amount, paymentMethod, shippingAddress } = req.body;
 
-    if (!customer || !orderItems || !orderItems.length || !amount || !shippingAddress) {
-      return res.status(400).json({ success: false, message: "Missing required fields." });
-    }
+    if (!customer) return res.status(400).json({ success: false, message: "Customer ID missing" });
+    if (!orderItems || !orderItems.length) return res.status(400).json({ success: false, message: "No items in order" });
+    if (!amount) return res.status(400).json({ success: false, message: "Order amount missing" });
+    if (!shippingAddress) return res.status(400).json({ success: false, message: "Shipping address missing" });
 
-    const newOrder = new CustomerOrder({
+    const order = await CustomerOrder.create({
       customer,
       orderItems,
       amount,
       paymentMethod,
       shippingAddress,
-      paymentStatus:
-        paymentMethod === "cod"
-          ? "Pending"
-          : "Completed"
+      paymentStatus: paymentMethod === "cod" ? "Pending" : "Completed"
     });
 
-    await newOrder.save();
-
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
-      message: "Order placed successfully!",
-      orderId: newOrder._id,
-      order: newOrder
+      message: "Order placed successfully",
+      orderId: order._id,
+      order
     });
 
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
 };
 
-// Customer Orders
-exports.getCustomerOrders = async (req, res) => {
-  try {
-    const orders = await CustomerOrder.find({ customer: req.params.customerId })
-      .sort({ createdAt: -1 });
 
-    res.status(200).json({ success: true, orders });
+// ===== GET ALL CUSTOMER ORDERS =====
+const getCustomerOrders = async (req, res) => {
+  try {
+    const { customerId } = req.params;
+
+    const orders = await CustomerOrder.find({ customer: customerId }).sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      success: true,
+      orders
+    });
 
   } catch (error) {
-    res.status(500).json({ success: false, message: "Server Error" });
+    return res.status(500).json({
+      success: false,
+      message: "Server Error"
+    });
   }
 };
 
-// Vendor Orders (Multi Vendor)
-exports.getVendorOrders = async (req, res) => {
+
+// ===== GET SINGLE ORDER DETAILS =====
+const getOrderById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const order = await CustomerOrder.findById(id);
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found"
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      order
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Server Error"
+    });
+  }
+};
+
+
+// ===== CANCEL ORDER =====
+const cancelOrder = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { cancellationReason } = req.body;
+
+    const order = await CustomerOrder.findById(id);
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found"
+      });
+    }
+
+    if (["Shipped", "Delivered"].includes(order.orderStatus)) {
+      return res.status(400).json({
+        success: false,
+        message: "Order cannot be cancelled after shipping"
+      });
+    }
+
+    order.orderStatus = "Cancelled";
+    order.paymentStatus = order.paymentStatus === "Completed" ? "Refund Initiated" : order.paymentStatus;
+    order.cancellationReason = cancellationReason || "Customer Cancelled";
+
+    await order.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Order cancelled successfully",
+      order
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
+
+// ===== GET VENDOR ORDERS =====
+const getVendorOrders = async (req, res) => {
   try {
     const { vendorId } = req.params;
 
@@ -383,22 +545,35 @@ exports.getVendorOrders = async (req, res) => {
       "orderItems.vendorId": vendorId
     }).sort({ createdAt: -1 });
 
-    const vendorOnlyItems = orders.map(order => {
-      const myItems = order.orderItems.filter(
-        item => item.vendorId.toString() === vendorId
-      );
+    const vendorItems = orders.map(order => {
+      const filtered = order.orderItems.filter(i => i.vendorId === vendorId);
 
       return {
         ...order._doc,
-        orderItems: myItems,
-        vendorAmount: myItems.reduce((acc, i) => acc + (i.price * i.qty), 0)
+        orderItems: filtered,
+        vendorAmount: filtered.reduce((a, i) => a + (i.price * i.qty), 0)
       };
     });
 
-    res.status(200).json({ success: true, orders: vendorOnlyItems });
+    return res.status(200).json({
+      success: true,
+      orders: vendorItems
+    });
 
   } catch (error) {
-    res.status(500).json({ success: false, message: "Server Error" });
+    return res.status(500).json({
+      success: false,
+      message: "Server Error"
+    });
   }
 };
 
+
+// ===== EXPORTS (IMPORTANT: FIXES YOUR ERROR) =====
+module.exports = {
+  createOrder,
+  getCustomerOrders,
+  getOrderById,
+  cancelOrder,
+  getVendorOrders
+};
