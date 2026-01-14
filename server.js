@@ -35,16 +35,11 @@ app.use(
   cors({
     origin: ["*",
       "http://localhost:3000",
-             "http://localhost:5173",
       "http://localhost:3001",
       "http://localhost:5173",
       "http://localhost:5174",
       "http://localhost:5175",
-      "http://localhost:7002",
-             "https://havbit.in",
-             "https://admin.havbit.in",
-             "https://admin-habit-zpzz.vercel.app",
-             "https://vendor.havbit.in",
+      "https://backendhavitfinal.vercel.app",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -105,14 +100,15 @@ app.use("/api/products", require("./routes/productRoutes"));
 app.use("/api/categories", require("./routes/categoryRoutes"));
 app.use("/api/subcategories", require("./routes/subCategoryRoutes"));
 app.use("/api/orders", require("./routes/orderRoutes"));
-app.use("/api/payment", require("./routes/paymentRoutes"));
-// app.use("/api", require("./routes/publicProducts"));
+app.use("/api/payment/cashfree", require("./routes/cashfreeRoutes"));
 app.use("/api/admin", adminVendorRoutes);
+// app.use("/api/customer", require("./routes/customerOrder.routes"));
 // app.use("/api/customer", require("./routes/customerOrder.routes"));
 app.use("/api/customer", require("./routes/customerOrder.routes"));
 
 /* Vendor */
-app.use("/api/vendor", require("./routes/vendorAuth"));
+app.use("/api/vendor/auth", require("./routes/vendorAuthRoutes"));
+app.use("/api/vendor", require("./routes/vendorOnboardingRoutes")); // ✅ ADD THIS
 app.use("/api/vendor/categories", require("./routes/vendorCategoryRoutes"));
 app.use("/api/vendor/products", require("./routes/vendorProductRoutes"));
 app.use("/api/vendor/subcategories", require("./routes/vendorSubCategoryRoutes"));
@@ -125,10 +121,14 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api/vendor", vendorProfileRoutes);
 app.use("/api/vendor", vendorRoutes);
 app.use("/api/website-user", require("./routes/websiteUser.routes"));
+app.use("/api/public", require("./routes/publicProducts"));
+app.use("/uploads", express.static("uploads"));
+app.use("/api/subcategories", require("./routes/subCategoryRoutes"));
+
 
 app.use("/api/vendor", require("./routes/vendorProfileRoutes"));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-app.use("/api/public", require("./routes/publicProducts"));
+
 
 
 
