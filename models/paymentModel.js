@@ -86,16 +86,32 @@ const mongoose = require("mongoose");
 
 const paymentSchema = new mongoose.Schema(
   {
-    razorpayOrderId: { type: String, required: true },
-    razorpayPaymentId: { type: String },
-    signature: { type: String },
+    gateway: {
+      type: String,
+      enum: ["CASHFREE", "RAZORPAY"],
+      required: true
+    },
 
-    customerOrderId: { type: mongoose.Schema.Types.ObjectId, ref: "CustomerOrder" },
+    gatewayOrderId: {
+      type: String,
+      required: true
+    },
 
-    // Guest + Auth user both supported
-    customerId: { type: String, default: null },
+    gatewayPaymentId: {
+      type: String,
+      default: null
+    },
 
-    amount: { type: Number, required: true },
+    customerOrderId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "CustomerOrder",
+      required: true
+    },
+
+    amount: {
+      type: Number,
+      required: true
+    },
 
     status: {
       type: String,
@@ -107,4 +123,5 @@ const paymentSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model("Payment", paymentSchema);
+
 
