@@ -1,6 +1,3 @@
-
-
-
 const Customer = require("../models/customerModel");
 const bcrypt = require("bcryptjs");
 
